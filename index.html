@@ -1,0 +1,1117 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <!-- Viewport meta tag is crucial for responsive design -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SMA HANDAYANI 1 PAMEUNGPEUK</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            scroll-behavior: smooth;
+        }
+        .dropdown > button:after, .dropdown > a.nav-link:after, .mobile-dropdown-toggle:after {
+            content: ' ▼';
+            font-size: 0.6rem;
+            margin-left: 0.25rem;
+            display: inline-block;
+            transition: transform 0.3s;
+        }
+        .dropdown:hover > button:after, .dropdown:hover > a.nav-link:after, .mobile-dropdown-toggle.open:after {
+            transform: rotate(180deg);
+        }
+        .gradient-text {
+            background: linear-gradient(to right, #4F46E5, #818CF8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .hero-bg {
+            background-image: linear-gradient(45deg, rgba(26, 32, 44, 0.8), rgba(74, 85, 104, 0.6)), url('https://placehold.co/1920x1080/6366F1/FFFFFF?text=Kampus+Sekolah');
+            background-size: cover;
+            background-position: center;
+        }
+        .card-hover {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .card-hover:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+        }
+        /* Styling for Organizational Chart */
+        .org-chart {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            overflow-x: auto; /* Allow horizontal scroll on very small screens if needed */
+            padding: 1rem 0;
+        }
+        .org-node {
+            padding: 1.5rem 1rem;
+            border-radius: 0.75rem;
+            background-color: #fff;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            border: 1px solid #e5e7eb;
+            text-align: center;
+            width: 220px;
+            flex-shrink: 0; /* Prevent nodes from shrinking */
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .org-node:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+        }
+        .org-node.kepsek {
+            background-color: #4f46e5;
+            color: white;
+        }
+        .org-node.wakasek {
+            background-color: #6366f1;
+            color: white;
+        }
+        .org-node.level-3 {
+            background-color: #eef2ff;
+            color: #312e81;
+        }
+        .org-node .name {
+            font-weight: 600;
+        }
+        .org-node .title {
+            font-size: 0.875rem;
+            opacity: 0.9;
+        }
+        .org-level {
+            display: flex;
+            flex-wrap: wrap; /* Allow wrapping on medium screens */
+            justify-content: center;
+            gap: 2.5rem;
+            margin-top: 4rem;
+            position: relative;
+        }
+        /* Connecting lines for desktop */
+        .org-level::before {
+            content: '';
+            position: absolute;
+            top: -2rem;
+            left: 50%;
+            width: 1px;
+            height: 2rem;
+            background-color: #cbd5e1;
+        }
+        .org-level > .org-node::before {
+            content: '';
+            position: absolute;
+            top: -2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 1px;
+            height: 2rem;
+            background-color: #cbd5e1;
+        }
+        .org-level > .org-node::after {
+             content: '';
+            position: absolute;
+            top: -2rem;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background-color: #cbd5e1;
+        }
+        .org-level > .org-node:first-child::after { left: 50%; }
+        .org-level > .org-node:last-child::after { right: 50%; }
+        .org-level > .org-node:only-child::after { display: none; }
+
+        /* Responsive adjustments for Org Chart on mobile */
+        @media (max-width: 767px) {
+            .org-level {
+                flex-direction: column;
+                align-items: center;
+                gap: 2rem;
+                margin-top: 3rem;
+            }
+            .org-level::before {
+                /* The main vertical line from the level above */
+                width: 1px;
+                height: 3rem;
+            }
+            .org-level > .org-node::before {
+                /* Vertical line connecting stacked nodes */
+                top: -1.5rem;
+                height: 1.5rem;
+            }
+            .org-level > .org-node::after {
+                /* Hide horizontal connecting lines on mobile */
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body class="bg-slate-50 flex flex-col min-h-screen text-slate-700">
+
+    <!-- Header Section -->
+    <header class="bg-white/80 backdrop-blur-lg shadow-sm sticky top-0 z-50">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <!-- Logo and School Name -->
+                <div class="flex-shrink-0">
+                    <a href="#" id="logo-link" class="flex items-center space-x-3">
+                        <img src="./photo/logo.jpg" alt="Logo SMA Handayani" class="h-12 w-auto rounded-lg">
+                        <span class="text-base sm:text-lg md:text-xl font-bold text-slate-800">SMA HANDAYANI 1 PAMEUNGPEUK</span>
+                    </a>
+                </div>
+
+                <!-- Desktop Navigation -->
+                <nav class="hidden md:flex items-center space-x-1">
+                    <a href="#" class="nav-link text-slate-600 hover:text-indigo-600 px-4 py-2 rounded-md transition-colors duration-300 font-medium" data-target="menu-utama-content">Menu Utama</a>
+                    <div class="relative group dropdown">
+                        <a href="#" class="nav-link text-slate-600 hover:text-indigo-600 px-4 py-2 rounded-md transition-colors duration-300 font-medium flex items-center" data-target="welcome-content">Beranda</a>
+                        <div class="absolute left-0 mt-2 w-56 bg-white rounded-md shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform group-hover:translate-y-0 -translate-y-2">
+                            <div class="py-1">
+                                <a href="#" class="nav-link block px-4 py-2 text-sm text-slate-700 hover:bg-indigo-50 hover:text-indigo-600" data-target="sejarah-content">Sejarah</a>
+                                <a href="#" class="nav-link block px-4 py-2 text-sm text-slate-700 hover:bg-indigo-50 hover:text-indigo-600" data-target="visimisi-content">Visi dan Misi</a>
+                                <a href="#" class="nav-link block px-4 py-2 text-sm text-slate-700 hover:bg-indigo-50 hover:text-indigo-600" data-target="struktur-content">Struktur</a>
+                                <a href="#" class="nav-link block px-4 py-2 text-sm text-slate-700 hover:bg-indigo-50 hover:text-indigo-600" data-target="pendidik-content">Tenaga Pendidik</a>
+                                <a href="#" class="nav-link block px-4 py-2 text-sm text-slate-700 hover:bg-indigo-50 hover:text-indigo-600" data-target="akademik-content">Akademik</a>
+                                <a href="#" class="nav-link block px-4 py-2 text-sm text-slate-700 hover:bg-indigo-50 hover:text-indigo-600" data-target="program-unggulan-content">Program Unggulan</a>
+                                <a href="#" class="nav-link block px-4 py-2 text-sm text-slate-700 hover:bg-indigo-50 hover:text-indigo-600" data-target="kesiswaan-content">Kesiswaan dan Humas</a>
+                                <a href="#" class="nav-link block px-4 py-2 text-sm text-slate-700 hover:bg-indigo-50 hover:text-indigo-600" data-target="sarpras-content">Sarpras dan Administrasi</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="relative group dropdown">
+                        <button class="text-slate-600 hover:text-indigo-600 px-4 py-2 rounded-md transition-colors duration-300 font-medium flex items-center">Profil</button>
+                        <div class="absolute left-0 mt-2 w-48 bg-white rounded-md shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform group-hover:translate-y-0 -translate-y-2">
+                            <div class="py-1">
+                                <a href="#" class="nav-link block px-4 py-2 text-sm text-slate-700 hover:bg-indigo-50 hover:text-indigo-600" data-target="galeri-content">Galeri Foto</a>
+                                <a href="#" class="nav-link block px-4 py-2 text-sm text-slate-700 hover:bg-indigo-50 hover:text-indigo-600" data-target="berita-content">Berita & Artikel</a>
+                                <a href="#" class="nav-link block px-4 py-2 text-sm text-slate-700 hover:bg-indigo-50 hover:text-indigo-600" data-target="alumni-content">Alumni PTN</a>
+                            </div>
+                        </div>
+                    </div>
+                    <a href="#" class="nav-link bg-indigo-600 text-white px-5 py-2 rounded-full hover:bg-indigo-700 transition-all duration-300 font-medium shadow-lg shadow-indigo-500/30 hover:shadow-indigo-500/50" data-target="ppdb-content">PPDB</a>
+                </nav>
+                <!-- Mobile Menu Button -->
+                <div class="md:hidden">
+                    <button id="mobile-menu-button" class="text-slate-600 hover:text-slate-800 focus:outline-none">
+                        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" /></svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3 border-t">
+                <a href="#" class="nav-link block px-3 py-2 rounded-md text-base font-medium text-slate-700 hover:text-indigo-600 hover:bg-indigo-50" data-target="menu-utama-content">Menu Utama</a>
+                <div>
+                    <button id="mobile-beranda-toggle" class="mobile-dropdown-toggle w-full text-left flex justify-between items-center px-3 py-2 rounded-md text-base font-medium text-slate-700 hover:text-indigo-600 hover:bg-indigo-50">Beranda</button>
+                    <div id="mobile-beranda-menu" class="hidden mt-1 space-y-1 pl-4 border-l-2 border-slate-200">
+                        <a href="#" class="nav-link block px-3 py-2 rounded-md text-base font-medium text-slate-600 hover:text-indigo-600 hover:bg-indigo-50" data-target="welcome-content">Halaman Utama</a>
+                        <a href="#" class="nav-link block px-3 py-2 rounded-md text-base font-medium text-slate-600 hover:text-indigo-600 hover:bg-indigo-50" data-target="sejarah-content">Sejarah</a>
+                        <a href="#" class="nav-link block px-3 py-2 rounded-md text-base font-medium text-slate-600 hover:text-indigo-600 hover:bg-indigo-50" data-target="visimisi-content">Visi dan Misi</a>
+                        <a href="#" class="nav-link block px-3 py-2 rounded-md text-base font-medium text-slate-600 hover:text-indigo-600 hover:bg-indigo-50" data-target="struktur-content">Struktur</a>
+                        <a href="#" class="nav-link block px-3 py-2 rounded-md text-base font-medium text-slate-600 hover:text-indigo-600 hover:bg-indigo-50" data-target="pendidik-content">Tenaga Pendidik</a>
+                        <a href="#" class="nav-link block px-3 py-2 rounded-md text-base font-medium text-slate-600 hover:text-indigo-600 hover:bg-indigo-50" data-target="akademik-content">Akademik</a>
+                        <a href="#" class="nav-link block px-3 py-2 rounded-md text-base font-medium text-slate-600 hover:text-indigo-600 hover:bg-indigo-50" data-target="program-unggulan-content">Program Unggulan</a>
+                        <a href="#" class="nav-link block px-3 py-2 rounded-md text-base font-medium text-slate-600 hover:text-indigo-600 hover:bg-indigo-50" data-target="kesiswaan-content">Kesiswaan dan Humas</a>
+                        <a href="#" class="nav-link block px-3 py-2 rounded-md text-base font-medium text-slate-600 hover:text-indigo-600 hover:bg-indigo-50" data-target="sarpras-content">Sarpras dan Administrasi</a>
+                    </div>
+                </div>
+                <div>
+                    <button id="mobile-profil-toggle" class="mobile-dropdown-toggle w-full text-left flex justify-between items-center px-3 py-2 rounded-md text-base font-medium text-slate-700 hover:text-indigo-600 hover:bg-indigo-50">Profil</button>
+                    <div id="mobile-profil-menu" class="hidden mt-1 space-y-1 pl-4 border-l-2 border-slate-200">
+                        <a href="#" class="nav-link block px-3 py-2 rounded-md text-base font-medium text-slate-600 hover:text-indigo-600 hover:bg-indigo-50" data-target="galeri-content">Galeri Foto</a>
+                        <a href="#" class="nav-link block px-3 py-2 rounded-md text-base font-medium text-slate-600 hover:text-indigo-600 hover:bg-indigo-50" data-target="berita-content">Berita & Artikel</a>
+                        <a href="#" class="nav-link block px-3 py-2 rounded-md text-base font-medium text-slate-600 hover:text-indigo-600 hover:bg-indigo-50" data-target="alumni-content">Alumni PTN</a>
+                    </div>
+                </div>
+                <a href="#" class="nav-link block px-3 py-2 mt-2 rounded-md text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700 text-center" data-target="ppdb-content">PPDB</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="flex-grow">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
+            <!-- Universal wrapper for all content sections with responsive padding -->
+            <div class="content-wrapper">
+                <!-- Welcome Content -->
+                <div id="welcome-content" class="content-section hidden bg-white p-4 sm:p-6 md:p-8 rounded-2xl shadow-xl overflow-hidden">
+                    <div class="text-center mb-8">
+                        <h1 class="text-3xl md:text-5xl font-extrabold text-slate-800">Selamat Datang di <span class="gradient-text">SMA Handayani 1</span></h1>
+                        <p class="mt-4 text-base md:text-lg text-slate-500 max-w-3xl mx-auto">Membentuk Generasi Unggul, Kreatif, dan Berakhlak Mulia.</p>
+                    </div>
+                    <div class="w-full max-w-4xl mx-auto mb-8">
+                        <div class="aspect-w-16 aspect-h-9">
+                            <iframe class="w-full aspect-video rounded-xl shadow-2xl shadow-indigo-500/20" src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        </div>
+                    </div>
+                    <div class="mt-10 text-center">
+                        <h2 class="text-2xl font-bold text-slate-800">Dr. Budi Santoso, M.Pd.</h2>
+                        <p class="text-indigo-500 font-semibold">Kepala Sekolah</p>
+                        <div class="mt-6 max-w-4xl mx-auto text-slate-600 leading-relaxed space-y-4 text-left border-t pt-6 border-slate-200">
+                            <p class="italic">"Pendidikan adalah senjata paling ampuh untuk mengubah dunia. Kami menginspirasi setiap siswa untuk menemukan potensi terbaik mereka dan menjadi agen perubahan positif."</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sejarah Content -->
+                <div id="sejarah-content" class="content-section hidden bg-white p-4 sm:p-6 md:p-8 rounded-2xl shadow-xl">
+                    <h1 class="text-3xl font-bold text-slate-800 mb-6 text-center">Sejarah Sekolah</h1>
+                    <p class="text-center text-slate-500 mb-12 max-w-3xl mx-auto">Perjalanan kami dari awal berdiri hingga menjadi salah satu sekolah terbaik.</p>
+                    <div class="relative pl-8 border-l-2 border-indigo-200">
+                        <!-- Milestone 1 -->
+                        <div class="mb-12">
+                            <div class="absolute -left-4 top-1 w-8 h-8 bg-indigo-600 rounded-full flex items-center justify-center text-white font-bold">1</div>
+                            <p class="text-sm font-semibold text-indigo-500">1985 - Awal Berdiri</p>
+                            <h3 class="text-xl font-bold text-slate-800 mt-1">Pendirian Sekolah</h3>
+                            <p class="text-slate-600 mt-2">Didirikan dengan visi untuk menyediakan pendidikan berkualitas yang terjangkau.</p>
+                        </div>
+                         <!-- Milestone 2 -->
+                        <div class="mb-12">
+                            <div class="absolute -left-4 top-1 w-8 h-8 bg-indigo-600 rounded-full flex items-center justify-center text-white font-bold">2</div>
+                            <p class="text-sm font-semibold text-indigo-500">2000 - Pembangunan Gedung Baru</p>
+                            <h3 class="text-xl font-bold text-slate-800 mt-1">Ekspansi Fasilitas</h3>
+                            <p class="text-slate-600 mt-2">Membangun gedung baru dengan laboratorium dan perpustakaan modern.</p>
+                        </div>
+                        <!-- Milestone 3 -->
+                        <div class="mb-12">
+                            <div class="absolute -left-4 top-1 w-8 h-8 bg-indigo-600 rounded-full flex items-center justify-center text-white font-bold">3</div>
+                            <p class="text-sm font-semibold text-indigo-500">2015 - Meraih Akreditasi 'A'</p>
+                            <h3 class="text-xl font-bold text-slate-800 mt-1">Pengakuan Kualitas</h3>
+                            <p class="text-slate-600 mt-2">Memperoleh akreditasi 'A' sebagai bukti komitmen kami terhadap kualitas.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Visi Misi Content -->
+                <div id="visimisi-content" class="content-section hidden bg-white p-4 sm:p-6 md:p-8 rounded-2xl shadow-xl">
+                     <div class="text-center">
+                        <h1 class="text-3xl font-bold text-slate-800 mb-2">Visi & Misi Sekolah</h1>
+                        <p class="text-slate-500 mb-12 max-w-2xl mx-auto">Landasan dan arah gerak kami dalam menyelenggarakan pendidikan.</p>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <!-- Visi Card -->
+                        <div class="bg-gradient-to-br from-indigo-50 to-purple-50 p-6 md:p-8 rounded-xl card-hover border border-indigo-200">
+                            <div class="flex items-center gap-4">
+                                 <div class="bg-indigo-600 text-white p-3 rounded-lg"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" /><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /></svg></div>
+                                <h2 class="text-2xl font-bold text-slate-800">Visi Kami</h2>
+                            </div>
+                            <p class="mt-4 text-slate-600 leading-relaxed">"Menjadi lembaga pendidikan unggul yang menghasilkan generasi cerdas, kreatif, berkarakter, dan mampu bersaing secara global."</p>
+                        </div>
+
+                        <!-- Misi Card -->
+                        <div class="bg-gradient-to-br from-slate-50 to-gray-50 p-6 md:p-8 rounded-xl card-hover border border-slate-200">
+                            <div class="flex items-center gap-4">
+                                <div class="bg-slate-600 text-white p-3 rounded-lg"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" /></svg></div>
+                                <h2 class="text-2xl font-bold text-slate-800">Misi Kami</h2>
+                            </div>
+                            <ul class="mt-4 text-slate-600 space-y-3 list-disc list-inside">
+                                <li>Menyelenggarakan pendidikan berkualitas terintegrasi teknologi.</li>
+                                <li>Mengembangkan potensi siswa secara akademik dan non-akademik.</li>
+                                <li>Membentuk karakter siswa yang berakhlak mulia.</li>
+                                <li>Menciptakan lingkungan belajar yang aman dan inspiratif.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Struktur Content -->
+                <div id="struktur-content" class="content-section hidden bg-white p-4 sm:p-6 md:p-8 rounded-2xl shadow-xl overflow-hidden">
+                    <div class="text-center">
+                        <h1 class="text-3xl font-bold text-slate-800 mb-2">Struktur Organisasi</h1>
+                        <p class="text-slate-500 mb-12 max-w-2xl mx-auto">Struktur kepengurusan sekolah yang solid dan profesional.</p>
+                    </div>
+                    <div class="org-chart">
+                        <!-- Level 1: Kepala Sekolah -->
+                        <div class="org-node kepsek">
+                            <img src="./photo/hen.jpg" alt="Foto Kepala Sekolah" class="w-24 h-24 rounded-full mx-auto mb-4 object-cover border-4 border-white/50 shadow-lg bg-white/30">
+                            <div class="name">Hendryan M. Yusup, S.Kom.</div>
+                            <div class="title">Kepala Sekolah</div>
+                        </div>
+                        <!-- Level 2: Wakil Kepala Sekolah -->
+                        <div class="org-level">
+                            <div class="org-node wakasek">
+                                <img src="./photo/hen.jpg" alt="Foto Wakasek Kurikulum" class="w-24 h-24 rounded-full mx-auto mb-4 object-cover border-4 border-white/50 shadow-lg bg-white/30">
+                                <div class="name">Dra. Siti Aminah</div>
+                                <div class="title">Wakasek Kurikulum</div>
+                            </div>
+                            <div class="org-node wakasek">
+                                <img src="./photo/hen.jpg" alt="Foto Wakasek Kesiswaan" class="w-24 h-24 rounded-full mx-auto mb-4 object-cover border-4 border-white/50 shadow-lg bg-white/30">
+                                <div class="name">Ahmad Riyadi, S.Pd.</div>
+                                <div class="title">Wakasek Kesiswaan</div>
+                            </div>
+                            <div class="org-node wakasek">
+                                <img src="./photo/hen.jpg" alt="Foto Wakasek Sarpras" class="w-24 h-24 rounded-full mx-auto mb-4 object-cover border-4 border-white/50 shadow-lg bg-white/30">
+                                <div class="name">Rina Marlina, S.E.</div>
+                                <div class="title">Wakasek Sarpras</div>
+                            </div>
+                            <div class="org-node wakasek">
+                                <img src="./photo/hen.jpg" alt="Foto Wakasek Sarpras" class="w-24 h-24 rounded-full mx-auto mb-4 object-cover border-4 border-white/50 shadow-lg bg-white/30">
+                                <div class="name">Rina Marlina, S.E.</div>
+                                <div class="title">Humas</div>
+                            </div>
+                        </div>
+                        <!-- Level 3: Kepala Unit & Pembina -->
+                         <div class="text-center my-6 mt-16">
+                            <h3 class="text-xl font-semibold text-slate-700">Kepala Unit & Pembina</h3>
+                        </div>
+                        <div class="org-level">
+                            <div class="org-node level-3">
+                                 <img src="./photo/hen.jpg" alt="Foto Kepala TU" class="w-24 h-24 rounded-full mx-auto mb-4 object-cover border-4 border-white shadow-lg bg-slate-200">
+                                <div class="name">Endang S.</div>
+                                <div class="title">Kepala TU</div>
+                            </div>
+                            <div class="org-node level-3">
+                                <img src="./photo/hen.jpg" alt="Foto Pembina OSIS" class="w-24 h-24 rounded-full mx-auto mb-4 object-cover border-4 border-white shadow-lg bg-slate-200">
+                                <div class="name">Drs. H. Mulyadi</div>
+                                <div class="title">Pembina OSIS</div>
+                            </div>
+                            <div class="org-node level-3">
+                                <img src="./photo/hen.jpg" alt="Foto Pembina OSIS" class="w-24 h-24 rounded-full mx-auto mb-4 object-cover border-4 border-white shadow-lg bg-slate-200">
+                                <div class="name">Drs. H. Mulyadi</div>
+                                <div class="title">Kepala Laboratorium</div>
+                            </div>
+                            <div class="org-node level-3">
+                                <img src="./photo/hen.jpg" alt="Foto Pembina OSIS" class="w-24 h-24 rounded-full mx-auto mb-4 object-cover border-4 border-white shadow-lg bg-slate-200">
+                                <div class="name">Drs. H. Mulyadi</div>
+                                <div class="title">Kepala Lab IPA</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tenaga Pendidik Content -->
+                <div id="pendidik-content" class="content-section hidden bg-white p-4 sm:p-6 md:p-8 rounded-2xl shadow-xl">
+                    <div class="text-center">
+                        <h1 class="text-3xl font-bold text-slate-800 mb-2">Tenaga Pendidik</h1>
+                        <p class="text-slate-500 mb-12 max-w-2xl mx-auto">Guru-guru profesional dan berdedikasi yang siap membimbing para siswa.</p>
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+                        <!-- Teacher Card 1 -->
+                        <div class="text-center card-hover bg-slate-50 p-6 rounded-lg border border-slate-200">
+                            <img src="./photo/h.JPG" alt="Foto Guru" class="w-32 h-32 rounded-full mx-auto mb-4 object-cover shadow-lg bg-slate-200">
+                            <h3 class="text-lg font-semibold text-slate-800">Rahmat Hidayat, S.Pd.</h3>
+                            <p class="text-indigo-500">Guru Matematika</p>
+                        </div>
+                        <!-- Teacher Card 2 -->
+                        <div class="text-center card-hover bg-slate-50 p-6 rounded-lg border border-slate-200">
+                            <img src="./photo/h.JPG" alt="Foto Guru" class="w-32 h-32 rounded-full mx-auto mb-4 object-cover shadow-lg bg-slate-200">
+                            <h3 class="text-lg font-semibold text-slate-800">Siti Nurhaliza, M.Pd.</h3>
+                            <p class="text-indigo-500">Guru Bahasa Indonesia</p>
+                        </div>
+                        <!-- Teacher Card 3 -->
+                        <div class="text-center card-hover bg-slate-50 p-6 rounded-lg border border-slate-200">
+                            <img src="./photo/h.JPG" alt="Foto Guru" class="w-32 h-32 rounded-full mx-auto mb-4 object-cover shadow-lg bg-slate-200">
+                            <h3 class="text-lg font-semibold text-slate-800">Dr. Agus Setiawan</h3>
+                            <p class="text-indigo-500">Guru Fisika</p>
+                        </div>
+                        <!-- Teacher Card 4 -->
+                        <div class="text-center card-hover bg-slate-50 p-6 rounded-lg border border-slate-200">
+                            <img src="./photo/h.JPG" alt="Foto Guru" class="w-32 h-32 rounded-full mx-auto mb-4 object-cover shadow-lg bg-slate-200">
+                            <h3 class="text-lg font-semibold text-slate-800">Dewi Lestari, S.S.</h3>
+                            <p class="text-indigo-500">Guru Bahasa Inggris</p>
+                        </div>
+                        <!-- Teacher Card 5 -->
+                        <div class="text-center card-hover bg-slate-50 p-6 rounded-lg border border-slate-200">
+                            <img src="./photo/h.JPG" alt="Foto Guru" class="w-32 h-32 rounded-full mx-auto mb-4 object-cover shadow-lg bg-slate-200">
+                            <h3 class="text-lg font-semibold text-slate-800">Eko Prasetyo, S.Kom.</h3>
+                            <p class="text-indigo-500">Guru TIK</p>
+                        </div>
+                        <!-- Teacher Card 6 -->
+                        <div class="text-center card-hover bg-slate-50 p-6 rounded-lg border border-slate-200">
+                            <img src="./photo/h.JPG" alt="Foto Guru" class="w-32 h-32 rounded-full mx-auto mb-4 object-cover shadow-lg bg-slate-200">
+                            <h3 class="text-lg font-semibold text-slate-800">Fitriani, S.Pd.</h3>
+                            <p class="text-indigo-500">Guru Kimia</p>
+                        </div>
+                          <!-- Teacher Card 7 -->
+                        <div class="text-center card-hover bg-slate-50 p-6 rounded-lg border border-slate-200">
+                            <img src="./photo/h.JPG" alt="Foto Guru" class="w-32 h-32 rounded-full mx-auto mb-4 object-cover shadow-lg bg-slate-200">
+                            <h3 class="text-lg font-semibold text-slate-800">Drs. Bambang Wijoyo</h3>
+                            <p class="text-indigo-500">Guru Sejarah</p>
+                        </div>
+                          <!-- Teacher Card 8 -->
+                        <div class="text-center card-hover bg-slate-50 p-6 rounded-lg border border-slate-200">
+                            <img src="./photo/h.JPG" alt="Foto Guru" class="w-32 h-32 rounded-full mx-auto mb-4 object-cover shadow-lg bg-slate-200">
+                            <h3 class="text-lg font-semibold text-slate-800">Lina Marlina, S.Ag.</h3>
+                            <p class="text-indigo-500">Guru Pendidikan Agama</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Akademik Content -->
+                <div id="akademik-content" class="content-section hidden bg-white p-4 sm:p-6 md:p-8 rounded-2xl shadow-xl">
+                    <div class="text-center">
+                        <h1 class="text-3xl font-bold text-slate-800 mb-2">Informasi Akademik</h1>
+                        <p class="text-slate-500 mb-12 max-w-2xl mx-auto">Kurikulum, program studi, dan pendekatan belajar yang kami terapkan untuk mencetak lulusan berkualitas.</p>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                        <!-- Kurikulum Card -->
+                        <div class="bg-indigo-50 p-6 rounded-lg border border-indigo-200 card-hover">
+                             <div class="bg-indigo-600 text-white w-12 h-12 flex items-center justify-center rounded-lg mb-4"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" /></svg></div>
+                            <h3 class="text-xl font-bold text-slate-800">Kurikulum Merdeka</h3>
+                            <p class="mt-2 text-slate-600">Mengadopsi Kurikulum Merdeka yang berfokus pada pengembangan karakter, kompetensi, dan pembelajaran berbasis proyek.</p>
+                        </div>
+                        <!-- Jurusan IPA Card -->
+                        <div class="bg-indigo-50 p-6 rounded-lg border border-indigo-200 card-hover">
+                             <div class="bg-indigo-600 text-white w-12 h-12 flex items-center justify-center rounded-lg mb-4"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" /></svg></div>
+                            <h3 class="text-xl font-bold text-slate-800">Jurusan IPA</h3>
+                            <p class="mt-2 text-slate-600">Program studi Ilmu Pengetahuan Alam (IPA) untuk siswa yang berminat pada sains, teknologi, teknik, dan matematika (STEM).</p>
+                        </div>
+                        <!-- Jurusan IPS Card -->
+                        <div class="bg-indigo-50 p-6 rounded-lg border border-indigo-200 card-hover">
+                            <div class="bg-indigo-600 text-white w-12 h-12 flex items-center justify-center rounded-lg mb-4"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v.01M12 6v-1m0-1H8.5d1.5 2.5" /><path d="M4.93 19.07A10 10 0 1 1 19.07 4.93 10 10 0 0 1 4.93 19.07z" /></svg></div>
+                            <h3 class="text-xl font-bold text-slate-800">Jurusan IPS</h3>
+                            <p class="mt-2 text-slate-600">Program studi Ilmu Pengetahuan Sosial (IPS) yang mendalami ekonomi, sosiologi, geografi, dan sejarah untuk karir di bidang sosial dan humaniora.</p>
+                        </div>
+                    </div>
+                    <div class="mt-16 pt-8 border-t border-slate-200">
+                        <h2 class="text-2xl font-bold text-slate-800 mb-8 text-center">Waktu Belajar Efektif</h2>
+                        <div class="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8">
+                            <!-- Jadwal Hari Belajar -->
+                            <div class="bg-indigo-50 p-6 rounded-lg border border-indigo-200 flex items-center space-x-4 card-hover">
+                                <div class="flex-shrink-0 bg-indigo-600 text-white w-16 h-16 rounded-lg flex items-center justify-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                    </svg>
+                                </div>
+                                <div>
+                                    <h3 class="text-lg font-semibold text-slate-800">Senin - Jumat</h3>
+                                    <p class="text-slate-600">Kegiatan Belajar Mengajar</p>
+                                    <p class="font-bold text-indigo-600 text-lg">06:30 - 15:30 WIB</p>
+                                </div>
+                            </div>
+                            <!-- Jadwal Ekstrakurikuler -->
+                            <div class="bg-slate-50 p-6 rounded-lg border border-slate-200 flex items-center space-x-4 card-hover">
+                                <div class="flex-shrink-0 bg-slate-600 text-white w-16 h-16 rounded-lg flex items-center justify-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                         <path stroke-linecap="round" stroke-linejoin="round" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" />
+                                    </svg>
+                                </div>
+                                <div>
+                                    <h3 class="text-lg font-semibold text-slate-800">Sabtu</h3>
+                                    <p class="text-slate-600">Pengembangan Diri</p>
+                                    <p class="font-bold text-slate-700 text-lg">Kegiatan Ekstrakurikuler</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Program Unggulan Content -->
+                <div id="program-unggulan-content" class="content-section hidden bg-white p-4 sm:p-6 md:p-8 rounded-2xl shadow-xl">
+                    <div class="text-center">
+                        <h1 class="text-3xl font-bold text-slate-800 mb-2">Program Unggulan</h1>
+                        <p class="text-slate-500 mb-12 max-w-2xl mx-auto">Inisiatif dan program khusus yang kami tawarkan untuk mengembangkan potensi siswa secara maksimal.</p>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                        <!-- Program 1 -->
+                        <div class="bg-slate-50 p-6 rounded-lg border border-slate-200 card-hover">
+                           <div class="bg-indigo-600 text-white w-12 h-12 flex items-center justify-center rounded-lg mb-4"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg></div>
+                            <h3 class="text-xl font-bold text-slate-800">Kelas Digital & Literasi Teknologi</h3>
+                            <p class="mt-2 text-slate-600">Pembelajaran modern dengan perangkat digital dan pelatihan literasi teknologi untuk menyiapkan siswa menghadapi era digital.</p>
+                        </div>
+                        <!-- Program 2 -->
+                        <div class="bg-slate-50 p-6 rounded-lg border border-slate-200 card-hover">
+                           <div class="bg-indigo-600 text-white w-12 h-12 flex items-center justify-center rounded-lg mb-4"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h7.5" /></svg></div>
+                            <h3 class="text-xl font-bold text-slate-800">Kewirausahaan Muda</h3>
+                            <p class="mt-2 text-slate-600">Program inkubasi bisnis bagi siswa untuk belajar merancang, memulai, dan mengelola usaha sejak dini.</p>
+                        </div>
+                        <!-- Program 3 -->
+                        <div class="bg-slate-50 p-6 rounded-lg border border-slate-200 card-hover">
+                            <div class="bg-indigo-600 text-white w-12 h-12 flex items-center justify-center rounded-lg mb-4"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" /></svg></div>
+                            <h3 class="text-xl font-bold text-slate-800">Pembinaan Olimpiade & Kompetisi</h3>
+                            <p class="mt-2 text-slate-600">Pelatihan intensif bagi siswa berprestasi untuk mengikuti berbagai olimpiade sains, debat, dan kompetisi akademik lainnya.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Kesiswaan dan Humas Content -->
+                <div id="kesiswaan-content" class="content-section hidden bg-white p-4 sm:p-6 md:p-8 rounded-2xl shadow-xl">
+                    <div class="text-center">
+                        <h1 class="text-3xl font-bold text-slate-800 mb-2">Kesiswaan dan Humas</h1>
+                        <p class="text-slate-500 mb-12 max-w-2xl mx-auto">Mengembangkan potensi non-akademik siswa dan menjalin hubungan harmonis dengan masyarakat.</p>
+                    </div>
+                    <div>
+                        <h2 class="text-2xl font-bold text-slate-800 mb-8 text-center">Kegiatan Ekstrakurikuler</h2>
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                            <!-- OSIS Card -->
+                            <div class="bg-slate-50 rounded-lg border border-slate-200 card-hover overflow-hidden">
+                                <img src="./photo/h.JPG" alt="Kegiatan OSIS" class="w-full h-40 object-cover">
+                                <div class="p-6 text-center">
+                                    <h3 class="text-lg font-semibold text-slate-800">OSIS & MPK</h3>
+                                    <p class="mt-1 text-slate-500 text-sm">Wadah bagi siswa untuk belajar kepemimpinan, organisasi, dan menyalurkan aspirasi.</p>
+                                </div>
+                            </div>
+                              <!-- Pramuka Card -->
+                            <div class="bg-slate-50 rounded-lg border border-slate-200 card-hover overflow-hidden">
+                                <img src="./photo/h.JPG" alt="Kegiatan Pramuka" class="w-full h-40 object-cover">
+                                <div class="p-6 text-center">
+                                    <h3 class="text-lg font-semibold text-slate-800">Pramuka</h3>
+                                    <p class="mt-1 text-slate-500 text-sm">Membentuk karakter mandiri, disiplin, dan cinta alam melalui kegiatan kepanduan.</p>
+                                </div>
+                            </div>
+                            <!-- Paskibra Card -->
+                            <div class="bg-slate-50 rounded-lg border border-slate-200 card-hover overflow-hidden">
+                                <img src="./photo/h.JPG" alt="Kegiatan Paskibra" class="w-full h-40 object-cover">
+                                <div class="p-6 text-center">
+                                    <h3 class="text-lg font-semibold text-slate-800">Paskibra</h3>
+                                    <p class="mt-1 text-slate-500 text-sm">Mendidik siswa dalam baris-berbaris, disiplin, dan menumbuhkan jiwa nasionalisme.</p>
+                                </div>
+                            </div>
+                            <!-- PMR Card -->
+                            <div class="bg-slate-50 rounded-lg border border-slate-200 card-hover overflow-hidden">
+                                <img src="./photo/h.JPG" alt="Kegiatan PMR" class="w-full h-40 object-cover">
+                                <div class="p-6 text-center">
+                                    <h3 class="text-lg font-semibold text-slate-800">PMR</h3>
+                                    <p class="mt-1 text-slate-500 text-sm">Mengajarkan prinsip-prinsip kemanusiaan dan keterampilan pertolongan pertama.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-16">
+                        <h2 class="text-2xl font-bold text-slate-800 mb-4 text-center">Hubungan Masyarakat</h2>
+                         <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                            <div class="order-2 md:order-1">
+                                <p class="text-slate-600 mb-4">Kami percaya bahwa kerjasama yang baik antara sekolah, orang tua, dan masyarakat adalah kunci keberhasilan pendidikan. Humas SMA Handayani 1 aktif menjalin komunikasi melalui:</p>
+                                <ul class="space-y-3 list-disc list-inside text-slate-600">
+                                    <li>Pertemuan rutin dengan komite sekolah dan orang tua siswa.</li>
+                                    <li>Penyebaran informasi melalui media sosial dan buletin sekolah.</li>
+                                    <li>Program bakti sosial dan pengabdian kepada masyarakat sekitar.</li>
+                                    <li>Kemitraan dengan instansi pemerintah, swasta, dan perguruan tinggi.</li>
+                                </ul>
+                            </div>
+                            <div class="order-1 md:order-2">
+                                <img src="./photo/h.JPG" alt="Hubungan Masyarakat" class="rounded-lg shadow-lg w-full h-auto object-cover">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sarpras dan Administrasi Content -->
+                 <div id="sarpras-content" class="content-section hidden bg-white p-4 sm:p-6 md:p-8 rounded-2xl shadow-xl">
+                    <div class="text-center">
+                        <h1 class="text-3xl font-bold text-slate-800 mb-2">Sarana Prasarana dan Administrasi</h1>
+                        <p class="text-slate-500 mb-12 max-w-2xl mx-auto">Fasilitas lengkap dan layanan administrasi yang efisien untuk mendukung proses belajar mengajar.</p>
+                    </div>
+                    <div>
+                        <h2 class="text-2xl font-bold text-slate-800 mb-8 text-center">Galeri Fasilitas Sekolah</h2>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                            <!-- Fasilitas Card 1 -->
+                            <div class="relative group card-hover overflow-hidden rounded-lg">
+                                <img src="./photo/h.JPG" alt="Ruang Kelas" class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500">
+                                <div class="absolute inset-0 bg-black bg-opacity-50 flex items-end p-4">
+                                    <h3 class="text-white text-lg font-semibold">Ruang Kelas Modern</h3>
+                                </div>
+                            </div>
+                            <!-- Fasilitas Card 2 -->
+                             <div class="relative group card-hover overflow-hidden rounded-lg">
+                                <img src="./photo/h.JPG" alt="Laboratorium" class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500">
+                                <div class="absolute inset-0 bg-black bg-opacity-50 flex items-end p-4">
+                                    <h3 class="text-white text-lg font-semibold">Laboratorium IPA & Komputer</h3>
+                                </div>
+                            </div>
+                              <!-- Fasilitas Card 3 -->
+                             <div class="relative group card-hover overflow-hidden rounded-lg">
+                                <img src="./photo/h.JPG" alt="Perpustakaan" class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500">
+                                <div class="absolute inset-0 bg-black bg-opacity-50 flex items-end p-4">
+                                    <h3 class="text-white text-lg font-semibold">Perpustakaan</h3>
+                                </div>
+                            </div>
+                            <!-- Fasilitas Card 4 -->
+                            <div class="relative group card-hover overflow-hidden rounded-lg">
+                                <img src="./photo/h.JPG" alt="Lapangan Olahraga" class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500">
+                                <div class="absolute inset-0 bg-black bg-opacity-50 flex items-end p-4">
+                                    <h3 class="text-white text-lg font-semibold">Lapangan Olahraga</h3>
+                                </div>
+                            </div>
+                            <!-- Fasilitas Card 5 -->
+                            <div class="relative group card-hover overflow-hidden rounded-lg">
+                                <img src="./photo/h.JPG" alt="Aula" class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500">
+                                <div class="absolute inset-0 bg-black bg-opacity-50 flex items-end p-4">
+                                    <h3 class="text-white text-lg font-semibold">Aula Serbaguna</h3>
+                                </div>
+                            </div>
+                              <!-- Fasilitas Card 6 -->
+                             <div class="relative group card-hover overflow-hidden rounded-lg">
+                                <img src="./photo/h.JPG" alt="Kantin" class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500">
+                                <div class="absolute inset-0 bg-black bg-opacity-50 flex items-end p-4">
+                                    <h3 class="text-white text-lg font-semibold">Kantin Sehat</h3>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                     <div class="mt-16 pt-8 border-t border-slate-200">
+                        <h2 class="text-2xl font-bold text-slate-800 mb-8 text-center">Layanan Administrasi</h2>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                             <div class="order-2 md:order-1">
+                                <p class="text-slate-600 mb-4">Tata Usaha (TU) kami siap melayani kebutuhan administrasi siswa dan orang tua dengan cepat dan ramah, meliputi:</p>
+                                <ul class="space-y-3 list-disc list-inside text-slate-600">
+                                   <li>Pendaftaran siswa baru (PPDB).</li>
+                                   <li>Administrasi pembayaran SPP dan biaya lainnya.</li>
+                                   <li>Pengelolaan data induk siswa dan legalisir dokumen.</li>
+                                   <li>Penerbitan surat keterangan dan dokumen administrasi lainnya.</li>
+                                </ul>
+                            </div>
+                             <div class="order-1 md:order-2">
+                                <img src="./photo/h.JPG" alt="Layanan Administrasi" class="rounded-lg shadow-lg w-full h-auto object-cover">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Galeri Foto Content -->
+                <div id="galeri-content" class="content-section hidden bg-white p-4 sm:p-6 md:p-8 rounded-2xl shadow-xl">
+                    <div class="text-center">
+                        <h1 class="text-3xl font-bold text-slate-800 mb-2">Galeri Foto</h1>
+                        <p class="text-slate-500 mb-8 max-w-2xl mx-auto">Momen-momen berharga dan kegiatan seru di SMA Handayani 1.</p>
+                    </div>
+                
+                    <!-- Filter Buttons -->
+                    <div id="gallery-filters" class="flex justify-center flex-wrap gap-2 mb-8">
+                        <button class="gallery-filter-btn active bg-indigo-600 text-white px-4 py-2 rounded-full text-sm font-semibold transition" data-filter="all">Semua</button>
+                        <button class="gallery-filter-btn bg-slate-200 text-slate-700 hover:bg-indigo-200 px-4 py-2 rounded-full text-sm font-semibold transition" data-filter="kegiatan">Kegiatan Sekolah</button>
+                        <button class="gallery-filter-btn bg-slate-200 text-slate-700 hover:bg-indigo-200 px-4 py-2 rounded-full text-sm font-semibold transition" data-filter="ekskul">Ekstrakurikuler</button>
+                        <button class="gallery-filter-btn bg-slate-200 text-slate-700 hover:bg-indigo-200 px-4 py-2 rounded-full text-sm font-semibold transition" data-filter="prestasi">Prestasi</button>
+                    </div>
+                
+                    <!-- Gallery Grid -->
+                    <div id="gallery-grid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                        <!-- Foto akan ditambahkan oleh JavaScript -->
+                    </div>
+                </div>
+
+                <!-- Berita & Artikel Content -->
+                <div id="berita-content" class="content-section hidden bg-white p-4 sm:p-6 md:p-8 rounded-2xl shadow-xl">
+                    <div class="text-center">
+                        <h1 class="text-3xl font-bold text-slate-800 mb-2">Berita & Artikel</h1>
+                        <p class="text-slate-500 mb-12 max-w-2xl mx-auto">Informasi terkini, prestasi, dan tulisan inspiratif dari lingkungan sekolah.</p>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                        <div class="bg-slate-50 rounded-lg border border-slate-200 card-hover overflow-hidden flex flex-col"><img src="./photo/h.JPG" alt="Siswa Berprestasi" class="w-full h-48 object-cover"><div class="p-6 flex-grow flex flex-col"><h3 class="text-xl font-bold text-slate-800">Siswa SMA Handayani 1 Raih Medali Emas Olimpiade Sains Nasional</h3><p class="text-sm text-slate-500 mt-2">5 September 2025</p><p class="mt-4 text-slate-600 flex-grow">Dengan bangga kami umumkan bahwa salah satu siswa terbaik kami, Ananda Budi, berhasil membawa pulang medali emas...</p><a href="#" class="nav-link mt-4 inline-block text-indigo-600 font-semibold hover:text-indigo-800 self-start" data-target="berita-1-content">Baca Selengkapnya →</a></div></div>
+                        <div class="bg-slate-50 rounded-lg border border-slate-200 card-hover overflow-hidden flex flex-col"><img src="./photo/h.JPG" alt="Workshop Guru" class="w-full h-48 object-cover"><div class="p-6 flex-grow flex flex-col"><h3 class="text-xl font-bold text-slate-800">Workshop Peningkatan Kompetensi Guru di Era Digital</h3><p class="text-sm text-slate-500 mt-2">28 Agustus 2025</p><p class="mt-4 text-slate-600 flex-grow">SMA Handayani 1 berkomitmen untuk terus meningkatkan kualitas pengajaran dengan mengadakan workshop rutin...</p><a href="#" class="nav-link mt-4 inline-block text-indigo-600 font-semibold hover:text-indigo-800 self-start" data-target="berita-2-content">Baca Selengkapnya →</a></div></div>
+                        <div class="bg-slate-50 rounded-lg border border-slate-200 card-hover overflow-hidden flex flex-col"><img src="./photo/h.JPG" alt="Pentas Seni" class="w-full h-48 object-cover"><div class="p-6 flex-grow flex flex-col"><h3 class="text-xl font-bold text-slate-800">Gemerlap Pentas Seni Tahunan: Ekspresi Kreativitas Siswa</h3><p class="text-sm text-slate-500 mt-2">15 Agustus 2025</p><p class="mt-4 text-slate-600 flex-grow">Acara pentas seni tahunan kembali digelar dengan meriah, menampilkan berbagai bakat siswa mulai dari musik, tari...</p><a href="#" class="nav-link mt-4 inline-block text-indigo-600 font-semibold hover:text-indigo-800 self-start" data-target="berita-3-content">Baca Selengkapnya →</a></div></div>
+                    </div>
+                </div>
+
+                <!-- Berita 1 Detail Content -->
+                <div id="berita-1-content" class="content-section hidden bg-white p-4 sm:p-6 md:p-8 rounded-2xl shadow-xl">
+                    <article class="max-w-4xl mx-auto">
+                        <a href="#" class="nav-link inline-flex items-center gap-2 text-indigo-600 font-semibold hover:text-indigo-800 mb-6" data-target="berita-content">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" /></svg>
+                            Kembali ke Daftar Berita
+                        </a>
+                        <h1 class="text-3xl md:text-4xl font-extrabold text-slate-800">Siswa SMA Handayani 1 Raih Medali Emas Olimpiade Sains Nasional</h1>
+                        <p class="text-slate-500 mt-4">Dipublikasikan pada 5 September 2025 oleh Tim Humas Sekolah</p>
+                        <img src="./photo/hen.jpg" alt="Siswa Berprestasi" class="w-full h-auto object-cover rounded-lg shadow-lg my-8">
+                        <div class="prose max-w-none text-slate-600 leading-relaxed">
+                            <p>Dengan penuh rasa bangga dan syukur, kami sampaikan bahwa salah satu siswa terbaik SMA Handayani 1, Ananda Budi dari kelas XII MIPA 1, telah berhasil meraih Medali Emas dalam ajang prestisius Olimpiade Sains Nasional (OSN) 2025 untuk bidang studi Fisika.</p>
+                            <p>Keberhasilan ini merupakan buah dari kerja keras, dedikasi, dan ketekunan Ananda Budi selama berbulan-bulan dalam mempersiapkan diri. Di bawah bimbingan intensif dari Bapak Dr. Agus Setiawan selaku guru pembimbing, Budi mampu menunjukkan performa terbaiknya dan bersaing dengan ratusan siswa unggulan dari seluruh Indonesia.</p>
+                            <p>Kepala Sekolah, Bapak Hendryan M. Yusup, S.Kom., menyampaikan apresiasi setinggi-tingginya. "Prestasi ini bukan hanya kebanggaan bagi Ananda Budi dan keluarganya, tetapi juga bagi seluruh keluarga besar SMA Handayani 1. Ini adalah bukti bahwa dengan semangat belajar yang tinggi dan dukungan penuh dari sekolah, siswa-siswi kita mampu mencapai puncak prestasi," ujarnya.</p>
+                            <p>Semoga pencapaian gemilang ini dapat menjadi inspirasi dan motivasi bagi seluruh siswa SMA Handayani 1 untuk terus berprestasi, baik di bidang akademik maupun non-akademik.</p>
+                        </div>
+                    </article>
+                </div>
+
+                <!-- Berita 2 Detail Content -->
+                <div id="berita-2-content" class="content-section hidden bg-white p-4 sm:p-6 md:p-8 rounded-2xl shadow-xl">
+                    <article class="max-w-4xl mx-auto">
+                        <a href="#" class="nav-link inline-flex items-center gap-2 text-indigo-600 font-semibold hover:text-indigo-800 mb-6" data-target="berita-content">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" /></svg>
+                            Kembali ke Daftar Berita
+                        </a>
+                        <h1 class="text-3xl md:text-4xl font-extrabold text-slate-800">Workshop Peningkatan Kompetensi Guru di Era Digital</h1>
+                        <p class="text-slate-500 mt-4">Dipublikasikan pada 28 Agustus 2025 oleh Tim Kurikulum</p>
+                        <img src="./photo/hen.jpg" alt="Workshop Guru" class="w-full h-auto object-cover rounded-lg shadow-lg my-8">
+                        <div class="prose max-w-none text-slate-600 leading-relaxed">
+                            <p>Sebagai wujud komitmen untuk terus beradaptasi dengan perkembangan zaman, SMA Handayani 1 telah sukses menyelenggarakan "Workshop Peningkatan Kompetensi Guru di Era Digital". Acara yang berlangsung selama dua hari ini diikuti oleh seluruh tenaga pendidik di lingkungan sekolah.</p>
+                            <p>Workshop ini bertujuan untuk membekali para guru dengan keterampilan dan pengetahuan terkini mengenai pemanfaatan teknologi dalam proses belajar mengajar. Materi yang disampaikan meliputi penggunaan platform Learning Management System (LMS), pembuatan media ajar interaktif, serta strategi penilaian berbasis digital yang efektif dan efisien.</p>
+                            <p>Wakil Kepala Sekolah Bidang Kurikulum, Dra. Siti Aminah, dalam sambutannya menyatakan, "Transformasi digital dalam pendidikan adalah sebuah keniscayaan. Melalui workshop ini, kami berharap para guru dapat lebih percaya diri dan kreatif dalam merancang pembelajaran yang relevan, menarik, dan berpusat pada siswa."</p>
+                            <p>Kegiatan ini diharapkan dapat memberikan dampak positif secara langsung terhadap kualitas pembelajaran di kelas, sehingga para siswa dapat merasakan pengalaman belajar yang lebih modern dan bermakna.</p>
+                        </div>
+                    </article>
+                </div>
+
+                <!-- Berita 3 Detail Content -->
+                <div id="berita-3-content" class="content-section hidden bg-white p-4 sm:p-6 md:p-8 rounded-2xl shadow-xl">
+                    <article class="max-w-4xl mx-auto">
+                        <a href="#" class="nav-link inline-flex items-center gap-2 text-indigo-600 font-semibold hover:text-indigo-800 mb-6" data-target="berita-content">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" /></svg>
+                            Kembali ke Daftar Berita
+                        </a>
+                        <h1 class="text-3xl md:text-4xl font-extrabold text-slate-800">Gemerlap Pentas Seni Tahunan: Ekspresi Kreativitas Siswa</h1>
+                        <p class="text-slate-500 mt-4">Dipublikasikan pada 15 Agustus 2025 oleh OSIS SMA Handayani 1</p>
+                        <img src="./photo/hen.jpg" alt="Pentas Seni" class="w-full h-auto object-cover rounded-lg shadow-lg my-8">
+                        <div class="prose max-w-none text-slate-600 leading-relaxed">
+                            <p>Suasana meriah dan penuh semangat menyelimuti aula SMA Handayani 1 dalam gelaran Pentas Seni (Pensi) tahunan yang bertajuk "Melodi Kreasi". Acara yang diinisiasi oleh OSIS ini menjadi puncak dari rangkaian kegiatan akhir semester dan menjadi ajang unjuk bakat bagi para siswa.</p>
+                            <p>Berbagai penampilan memukau disajikan di atas panggung, mulai dari pertunjukan band, tari tradisional dan modern, drama musikal, hingga pembacaan puisi yang menyentuh hati. Tidak hanya itu, di area luar aula juga terdapat pameran karya seni rupa hasil kreativitas siswa selama satu semester.</p>
+                            <p>Ketua OSIS, selaku penanggung jawab acara, mengungkapkan rasa syukurnya atas kelancaran Pensi tahun ini. "Kami ingin menjadikan acara ini sebagai wadah bagi teman-teman untuk berekspresi secara bebas dan positif. Melihat antusiasme yang luar biasa, baik dari penampil maupun penonton, membuat semua kerja keras kami terbayar," tuturnya.</p>
+                            <p>Pentas Seni ini berhasil membuktikan bahwa siswa SMA Handayani 1 tidak hanya unggul dalam bidang akademik, tetapi juga kaya akan bakat dan kreativitas seni.</p>
+                        </div>
+                    </article>
+                </div>
+
+                <!-- Alumni Content -->
+                <div id="alumni-content" class="content-section hidden bg-white p-4 sm:p-6 md:p-8 rounded-2xl shadow-xl">
+                    <div class="text-center">
+                        <h1 class="text-3xl font-bold text-slate-800 mb-2">Jejak Alumni</h1>
+                        <p class="text-slate-500 mb-12 max-w-2xl mx-auto">Kisah sukses para alumni yang melanjutkan pendidikan ke jenjang perguruan tinggi ternama.</p>
+                    </div>
+                
+                    <!-- Alumni Grid - to be populated by JS -->
+                    <div id="alumni-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                        <!-- Alumni cards will be inserted here by JavaScript -->
+                    </div>
+                </div>
+
+                <!-- Menu Utama Content -->
+                <div id="menu-utama-content" class="content-section hidden bg-white p-4 sm:p-6 md:p-8 rounded-2xl shadow-xl">
+                    <div class="text-center">
+                        <h1 class="text-3xl md:text-4xl font-extrabold text-slate-800 mb-4">Selamat Datang di <span class="gradient-text">SMA Handayani 1 Pameungpeuk</span></h1>
+                        <h2 class="text-2xl font-bold text-slate-700 mb-2">Menu Utama</h2>
+                        <p class="text-slate-500 mb-12 max-w-2xl mx-auto">Jelajahi semua informasi penting tentang sekolah kami di satu tempat.</p>
+                    </div>
+
+                    <!-- Sambutan Kepala Sekolah -->
+                    <div class="mb-16 p-8 bg-slate-50 rounded-lg border border-slate-200">
+                         <div class="text-center">
+                            <h2 class="text-2xl font-bold text-slate-800">Sambutan Kepala Sekolah</h2>
+                            <img src="./photo/hen.jpg" alt="Foto Kepala Sekolah" class="w-28 h-28 rounded-full mx-auto my-4 object-cover border-4 border-white shadow-lg">
+                            <h3 class="text-xl font-bold text-slate-800">Dr. Budi Santoso, M.Pd.</h3>
+                            <p class="text-indigo-500 font-semibold">Kepala Sekolah</p>
+                            <div class="mt-6 max-w-3xl mx-auto text-slate-600 leading-relaxed">
+                                <p class="italic">"Pendidikan adalah senjata paling ampuh untuk mengubah dunia. Kami menginspirasi setiap siswa untuk menemukan potensi terbaik mereka dan menjadi agen perubahan positif."</p>
+                            </div>
+                            <div class="mt-8">
+                                <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" target="_blank" class="inline-flex items-center gap-2 bg-red-600 text-white px-6 py-3 rounded-full hover:bg-red-700 transition-all duration-300 font-medium shadow-lg shadow-red-500/30 hover:shadow-red-500/50">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M2 8a4 4 0 0 1 4 -4h12a4 4 0 0 1 4 4v8a4 4 0 0 1 -4 4h-12a4 4 0 0 1 -4 -4v-8z"></path><path d="M10 9l5 3l-5 3z"></path></svg>
+                                    <span>Tonton Sambutan di YouTube</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Navigasi Cepat -->
+                    <div>
+                        <!-- Sekilas Beranda -->
+                        <div class="mb-16">
+                            <h3 class="text-2xl font-bold text-slate-800 text-center mb-8">Jelajahi Beranda</h3>
+                            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                                <a href="#" class="nav-link block p-6 bg-indigo-50 rounded-lg border border-indigo-200 card-hover text-center" data-target="sejarah-content"><h4 class="font-bold text-indigo-800">Sejarah</h4><p class="text-sm text-indigo-600 mt-1">Perjalanan kami.</p></a>
+                                <a href="#" class="nav-link block p-6 bg-indigo-50 rounded-lg border border-indigo-200 card-hover text-center" data-target="visimisi-content"><h4 class="font-bold text-indigo-800">Visi & Misi</h4><p class="text-sm text-indigo-600 mt-1">Arah tujuan sekolah.</p></a>
+                                <a href="#" class="nav-link block p-6 bg-indigo-50 rounded-lg border border-indigo-200 card-hover text-center" data-target="struktur-content"><h4 class="font-bold text-indigo-800">Struktur</h4><p class="text-sm text-indigo-600 mt-1">Organisasi sekolah.</p></a>
+                                <a href="#" class="nav-link block p-6 bg-indigo-50 rounded-lg border border-indigo-200 card-hover text-center" data-target="pendidik-content"><h4 class="font-bold text-indigo-800">Tenaga Pendidik</h4><p class="text-sm text-indigo-600 mt-1">Guru profesional.</p></a>
+                                <a href="#" class="nav-link block p-6 bg-indigo-50 rounded-lg border border-indigo-200 card-hover text-center" data-target="akademik-content"><h4 class="font-bold text-indigo-800">Akademik</h4><p class="text-sm text-indigo-600 mt-1">Kurikulum & jadwal.</p></a>
+                                <a href="#" class="nav-link block p-6 bg-indigo-50 rounded-lg border border-indigo-200 card-hover text-center" data-target="program-unggulan-content"><h4 class="font-bold text-indigo-800">Program Unggulan</h4><p class="text-sm text-indigo-600 mt-1">Inisiatif khusus.</p></a>
+                                <a href="#" class="nav-link block p-6 bg-indigo-50 rounded-lg border border-indigo-200 card-hover text-center" data-target="kesiswaan-content"><h4 class="font-bold text-indigo-800">Kesiswaan</h4><p class="text-sm text-indigo-600 mt-1">Ekstrakurikuler.</p></a>
+                                <a href="#" class="nav-link block p-6 bg-indigo-50 rounded-lg border border-indigo-200 card-hover text-center" data-target="sarpras-content"><h4 class="font-bold text-indigo-800">Sarpras</h4><p class="text-sm text-indigo-600 mt-1">Fasilitas sekolah.</p></a>
+                            </div>
+                        </div>
+
+                        <!-- Sekilas Profil -->
+                        <div>
+                            <h3 class="text-2xl font-bold text-slate-800 text-center mb-8">Jelajahi Profil</h3>
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                                <a href="#" class="nav-link block p-6 bg-slate-100 rounded-lg border border-slate-200 card-hover text-center" data-target="galeri-content"><h4 class="font-bold text-slate-800">Galeri Foto</h4><p class="text-sm text-slate-600 mt-1">Momen berharga sekolah.</p></a>
+                                <a href="#" class="nav-link block p-6 bg-slate-100 rounded-lg border border-slate-200 card-hover text-center" data-target="berita-content"><h4 class="font-bold text-slate-800">Berita & Artikel</h4><p class="text-sm text-slate-600 mt-1">Informasi terkini.</p></a>
+                                <a href="#" class="nav-link block p-6 bg-slate-100 rounded-lg border border-slate-200 card-hover text-center" data-target="alumni-content"><h4 class="font-bold text-slate-800">Jejak Alumni</h4><p class="text-sm text-slate-600 mt-1">Kisah sukses alumni.</p></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PPDB Content -->
+                <div id="ppdb-content" class="content-section bg-white p-4 sm:p-6 md:p-8 rounded-2xl shadow-xl">
+                    <div class="text-center">
+                        <h1 class="text-3xl font-bold text-slate-800 mb-2">Penerimaan Peserta Didik Baru (PPDB)</h1>
+                        <h2 class="text-xl font-semibold text-indigo-600">Tahun Ajaran 2026/2027</h2>
+                        <p class="text-slate-500 mt-4 mb-12 max-w-2xl mx-auto">Bergabunglah dengan keluarga besar SMA Handayani 1 Pameungpeuk dan raih masa depan gemilang bersama kami.</p>
+                    </div>
+
+                    <!-- Timeline Pendaftaran -->
+                    <div class="max-w-4xl mx-auto mb-16">
+                        <h3 class="text-2xl font-bold text-slate-800 text-center mb-8">Jadwal Pendaftaran</h3>
+                        <div class="relative pl-8 border-l-2 border-indigo-200 space-y-12">
+                            <!-- Tahap 1 -->
+                            <div>
+                                <div class="absolute -left-4 top-1 w-8 h-8 bg-indigo-600 rounded-full flex items-center justify-center text-white font-bold ring-4 ring-white">1</div>
+                                <p class="text-sm font-semibold text-indigo-500">Januari - Februari 2026</p>
+                                <h4 class="text-xl font-bold text-slate-800 mt-1">Jalur Prestasi & Afirmasi</h4>
+                                <p class="text-slate-600 mt-2">Pendaftaran dan seleksi bagi calon siswa melalui jalur prestasi akademik/non-akademik dan jalur afirmasi (KETM).</p>
+                            </div>
+                             <!-- Tahap 2 -->
+                            <div>
+                                <div class="absolute -left-4 top-1 w-8 h-8 bg-indigo-600 rounded-full flex items-center justify-center text-white font-bold ring-4 ring-white">2</div>
+                                <p class="text-sm font-semibold text-indigo-500">Maret - April 2026</p>
+                                <h4 class="text-xl font-bold text-slate-800 mt-1">Jalur Zonasi & Pindahan</h4>
+                                <p class="text-slate-600 mt-2">Pendaftaran bagi calon siswa berdasarkan jarak tempat tinggal (zonasi) dan jalur perpindahan tugas orang tua.</p>
+                            </div>
+                             <!-- Tahap 3 -->
+                            <div>
+                                <div class="absolute -left-4 top-1 w-8 h-8 bg-slate-500 rounded-full flex items-center justify-center text-white font-bold ring-4 ring-white">3</div>
+                                <p class="text-sm font-semibold text-slate-500">Mei 2026</p>
+                                <h4 class="text-xl font-bold text-slate-800 mt-1">Pengumuman & Daftar Ulang</h4>
+                                <p class="text-slate-600 mt-2">Pengumuman hasil seleksi semua jalur dan proses daftar ulang bagi calon siswa yang diterima.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Syarat Pendaftaran -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-start">
+                        <div>
+                            <h3 class="text-2xl font-bold text-slate-800 mb-6">Syarat Pendaftaran</h3>
+                            <ul class="space-y-4 text-slate-600 list-disc list-inside">
+                                <li>Telah lulus SMP/sederajat, dibuktikan dengan Ijazah atau Surat Keterangan Lulus (SKL).</li>
+                                <li>Berusia maksimal 21 tahun pada tanggal 1 Juli 2026.</li>
+                                <li>Fotokopi Kartu Keluarga (KK) dan Akta Kelahiran.</li>
+                                <li>Pas foto berwarna ukuran 3x4 (2 lembar).</li>
+                                <li>Fotokopi rapor SMP semester 1-5 yang telah dilegalisir.</li>
+                                <li>Dokumen pendukung sesuai jalur pendaftaran (sertifikat prestasi, KIP/PKH, surat pindah tugas).</li>
+                            </ul>
+                        </div>
+                        <div class="bg-indigo-50 border border-indigo-200 p-6 rounded-lg">
+                             <h3 class="text-2xl font-bold text-slate-800 mb-4">Informasi Lebih Lanjut</h3>
+                             <p class="text-slate-600 mb-6">Untuk pertanyaan seputar PPDB, silakan hubungi panitia kami pada jam kerja (Senin-Jumat, 08:00-14:00 WIB).</p>
+                             <div class="space-y-4">
+                                <p class="flex items-center gap-3"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" /></svg><span>0812-3456-7890 (Bapak Ahmad)</span></p>
+                                <p class="flex items-center gap-3"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" /></svg><span>0898-7654-3210 (Ibu Rina)</span></p>
+                             </div>
+                             <div class="mt-8">
+                                <a href="#" class="w-full block text-center bg-indigo-600 text-white px-6 py-3 rounded-lg hover:bg-indigo-700 transition-all duration-300 font-medium shadow-lg shadow-indigo-500/30">
+                                    DAFTAR SEKARANG (Tautan akan aktif saat pendaftaran dibuka)
+                                </a>
+                             </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer Section -->
+    <footer class="bg-slate-800 text-white">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div class="md:col-span-2"><h3 class="text-lg font-semibold">SMA Handayani 1 Pameungpeuk</h3><p class="mt-2 text-slate-400 text-sm">Jl. Raya Pameungpeuk No. 28, Kab. Bandung, Jawa Barat 40376, Indonesia.</p><p class="mt-2 text-slate-400 text-sm">Telepon: (021) 123-4567</p><p class="mt-1 text-slate-400 text-sm">Email: info@smahandayani1.sch.id</p></div>
+                <div><h3 class="text-lg font-semibold">Tautan Cepat</h3><ul class="mt-2 space-y-2"><li><a href="#" class="nav-link text-slate-400 hover:text-white text-sm" data-target="visimisi-content">Visi & Misi</a></li><li><a href="#" class="nav-link text-slate-400 hover:text-white text-sm" data-target="pendidik-content">Tenaga Pendidik</a></li><li><a href="#" class="nav-link text-slate-400 hover:text-white text-sm" data-target="berita-content">Berita</a></li><li><a href="#" class="nav-link text-slate-400 hover:text-white text-sm" data-target="galeri-content">Galeri</a></li></ul></div>
+                <div>
+                    <h3 class="text-lg font-semibold">Ikuti Kami</h3>
+                    <div class="flex space-x-4 mt-3">
+                        <a href="#" target="_blank" class="text-slate-400 hover:text-white"><span class="sr-only">Facebook</span><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M7 10v4h3v7h4v-7h3l1 -4h-4v-2a1 1 0 0 1 1 -1h3v-4h-3a5 5 0 0 0 -5 5v2h-3"></path></svg></a>
+                        <a href="#" target="_blank" class="text-slate-400 hover:text-white"><span class="sr-only">Instagram</span><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><rect x="4" y="4" width="16" height="16" rx="4"></rect><circle cx="12" cy="12" r="3"></circle><line x1="16.5" y1="7.5" x2="16.5" y2="7.501"></line></svg></a>
+                        <a href="#" target="_blank" class="text-slate-400 hover:text-white"><span class="sr-only">YouTube</span><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><rect x="3" y="5" width="18" height="14" rx="4"></rect><path d="M10 9l5 3l-5 3z"></path></svg></a>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-8 border-t border-slate-700 pt-6 text-center"><p class="text-slate-400 text-sm">&copy; 2025 SMA Handayani 1 Pameungpeuk. Semua Hak Cipta Dilindungi.</p></div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const mobileBerandaToggle = document.getElementById('mobile-beranda-toggle');
+            const mobileBerandaMenu = document.getElementById('mobile-beranda-menu');
+            const mobileProfilToggle = document.getElementById('mobile-profil-toggle');
+            const mobileProfilMenu = document.getElementById('mobile-profil-menu');
+            const navLinks = document.querySelectorAll('.nav-link');
+            const contentSections = document.querySelectorAll('.content-section');
+            const logoLink = document.getElementById('logo-link');
+
+            // Toggle mobile menu visibility
+            if (mobileMenuButton && mobileMenu) {
+                mobileMenuButton.addEventListener('click', () => {
+                    mobileMenu.classList.toggle('hidden');
+                });
+            }
+
+            // Toggle mobile dropdowns
+            function setupMobileDropdown(toggle, menu) {
+                 if (toggle && menu) {
+                     toggle.addEventListener('click', () => {
+                         toggle.classList.toggle('open');
+                         menu.classList.toggle('hidden');
+                     });
+                 }
+            }
+            setupMobileDropdown(mobileBerandaToggle, mobileBerandaMenu);
+            setupMobileDropdown(mobileProfilToggle, mobileProfilMenu);
+
+            // Function to switch content sections
+            function showContent(targetId) {
+                contentSections.forEach(section => {
+                    section.classList.add('hidden');
+                });
+                const targetSection = document.getElementById(targetId);
+                if (targetSection) {
+                    targetSection.classList.remove('hidden');
+                }
+                // Scroll to top for better user experience
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+
+            // Event listeners for all navigation links
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(event) {
+                    const targetId = this.getAttribute('data-target');
+                    if (targetId) {
+                        event.preventDefault();
+                        showContent(targetId);
+                    }
+                    // Hide mobile menu after a link is clicked
+                    if (mobileMenu && !mobileMenu.classList.contains('hidden')) {
+                        mobileMenu.classList.add('hidden');
+                    }
+                });
+            });
+            
+            // Logo link returns to welcome content
+            if (logoLink) {
+                logoLink.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    showContent('welcome-content');
+                });
+            }
+
+            // --- Galeri Foto Logic ---
+            const galleryData = [
+                { imageSrc: "./photo/lomba.jpg", caption: "Upacara Bendera", category: "kegiatan" },
+                { imageSrc: "./photo/lomba.jpg", caption: "Class Meeting", category: "kegiatan" },
+                { imageSrc: "./photo/lomba.jpg", caption: "Lomba 17 Agustus", category: "kegiatan" },
+                { imageSrc: "./photo/h.JPG", caption: "Juara 1 Turnamen Futsal", category: "prestasi" },
+                { imageSrc: "./photo/h.JPG", caption: "Kegiatan Pramuka", category: "ekskul" },
+                { imageSrc: "./photo/h.JPG", caption: "Pentas Seni", category: "kegiatan" },
+                { imageSrc: "./photo/h1.jpg", caption: "Wisuda Angkatan", category: "kegiatan" },
+                { imageSrc: "./photo/h1.jpg", caption: "Juara Olimpiade Sains", category: "prestasi" },
+                { imageSrc: "./photo/h1.jpg", caption: "Latihan Paskibra", category: "ekskul" },
+                { imageSrc: "./photo/h1.jpg", caption: "Bakti Sosial", category: "kegiatan" },
+            ];
+
+            const galleryGrid = document.getElementById('gallery-grid');
+            const filterButtons = document.querySelectorAll('.gallery-filter-btn');
+
+            function renderGallery(filter = 'all') {
+                if (!galleryGrid) return;
+                galleryGrid.innerHTML = '';
+                const filteredData = filter === 'all' ? galleryData : galleryData.filter(item => item.category === filter);
+                filteredData.forEach(item => {
+                    const galleryItem = document.createElement('div');
+                    galleryItem.className = 'group relative card-hover rounded-lg overflow-hidden aspect-square';
+                    galleryItem.innerHTML = `<img src="${item.imageSrc}" alt="${item.caption}" class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500 bg-slate-200"><div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-50 transition-all duration-300 flex items-center justify-center"><p class="text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300 font-semibold text-lg text-center p-2">${item.caption}</p></div>`;
+                    galleryGrid.appendChild(galleryItem);
+                });
+            }
+
+            if (galleryGrid && filterButtons.length > 0) {
+                filterButtons.forEach(button => {
+                    button.addEventListener('click', () => {
+                        filterButtons.forEach(btn => {
+                            btn.classList.remove('active', 'bg-indigo-600', 'text-white');
+                            btn.classList.add('bg-slate-200', 'text-slate-700');
+                        });
+                        button.classList.add('active', 'bg-indigo-600', 'text-white');
+                        button.classList.remove('bg-slate-200', 'text-slate-700');
+                        const filter = button.getAttribute('data-filter');
+                        renderGallery(filter);
+                    });
+                });
+                renderGallery();
+            }
+
+            // --- Alumni Logic ---
+            const alumniData = [
+                {
+                    name: "Hendryan Maulana Yusup",
+                    photoSrc: "photo/hen.jpg",
+                    universityName: "Institut Teknologi Bandung",
+                    universityLogoSrc: "https://placehold.co/150x50/004881/FFFFFF?text=ITB",
+                    major: "Teknik Informatika",
+                    year: 2019,
+                    quote: "SMA Handayani 1 memberikan fondasi yang kuat bagi saya untuk bersaing di tingkat universitas."
+                },
+                {
+                    name: "Rina Marlina",
+                    photoSrc: "https://placehold.co/150x150/EFEFEF/333333?text=Profil",
+                    universityName: "Universitas Padjadjaran",
+                    universityLogoSrc: "https://placehold.co/150x50/E4A100/000000?text=UNPAD",
+                    major: "Ilmu Komunikasi",
+                    year: 2024,
+                    quote: "Selain akademik, kegiatan ekstrakurikuler di sini sangat membantu saya mengembangkan soft skills."
+                },
+                {
+                    name: "Siti Aisyah",
+                    photoSrc: "https://placehold.co/150x150/EFEFEF/333333?text=Profil",
+                    universityName: "Institut Teknologi Bandung",
+                    universityLogoSrc: "https://placehold.co/150x50/004881/FFFFFF?text=ITB",
+                    major: "Arsitektur",
+                    year: 2022,
+                    quote: "Para guru sangat mendukung minat dan bakat siswanya, baik di dalam maupun di luar kelas."
+                },
+                {
+                    name: "Dewi Lestari",
+                    photoSrc: "https://placehold.co/150x150/EFEFEF/333333?text=Profil",
+                    universityName: "Universitas Padjadjaran",
+                    universityLogoSrc: "https://placehold.co/150x50/E4A100/000000?text=UNPAD",
+                    major: "Manajemen",
+                    year: 2023,
+                    quote: "Lingkungan belajar yang kompetitif namun tetap suportif membuat saya selalu termotivasi."
+                },
+                {
+                    name: "Eko Prasetyo",
+                    photoSrc: "https://placehold.co/150x150/EFEFEF/333333?text=Profil",
+                    universityName: "Universitas Indonesia",
+                    universityLogoSrc: "https://placehold.co/150x50/FBCF00/003E7B?text=UI",
+                    major: "Ilmu Komputer",
+                    year: 2024,
+                    quote: "Fasilitas laboratorium komputer yang memadai sangat membantu saya dalam mendalami passion di bidang teknologi."
+                },
+                {
+                    name: "Budi Santoso",
+                    photoSrc: "https://placehold.co/150x150/EFEFEF/333333?text=Profil",
+                    universityName: "Institut Teknologi Bandung",
+                    universityLogoSrc: "https://placehold.co/150x50/004881/FFFFFF?text=ITB",
+                    major: "Teknik Mesin",
+                    year: 2023,
+                    quote: "Program pembinaan olimpiade di sekolah ini benar-benar mempersiapkan saya untuk kompetisi nasional."
+                },
+            ];
+
+            function renderAlumni() {
+                const alumniGrid = document.getElementById('alumni-grid');
+                if (!alumniGrid) return;
+                alumniGrid.innerHTML = '';
+                alumniData.forEach(alumnus => {
+                    const alumniCard = document.createElement('div');
+                    alumniCard.className = "bg-slate-50 p-6 rounded-lg border border-slate-200 card-hover flex flex-col items-center text-center h-full";
+                    
+                    const quoteHtml = alumnus.quote 
+                        ? `<p class="text-slate-600 italic mt-4 text-sm flex-grow">"${alumnus.quote}"</p>`
+                        : '<div class="flex-grow"></div>';
+
+                    alumniCard.innerHTML = `
+                        <img src="${alumnus.photoSrc}" alt="Foto ${alumnus.name}" class="w-24 h-24 rounded-full object-cover mb-4 shadow-lg bg-slate-200">
+                        <h3 class="text-xl font-bold text-slate-800">${alumnus.name}</h3>
+                        <p class="text-indigo-600 font-semibold">${alumnus.major} ${alumnus.year}</p>
+                        ${quoteHtml}
+                        <div class="border-t border-slate-200 w-full mt-4 pt-4 flex items-center justify-center gap-2">
+                            <img src="${alumnus.universityLogoSrc}" alt="Logo ${alumnus.universityName}" class="h-8 w-auto object-contain">
+                            <p class="text-slate-500 text-sm font-semibold">${alumnus.universityName}</p>
+                        </div>
+                    `;
+                    alumniGrid.appendChild(alumniCard);
+                });
+            }
+            
+            // Initial render for Alumni section
+            renderAlumni();
+
+        });
+    </script>
+
+</body>
+</html>
+
